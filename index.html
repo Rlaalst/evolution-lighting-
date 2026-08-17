@@ -109,19 +109,18 @@
 
         async function initFirebase() {
             try {
-                // 외부 환경에서도 정상 작동하도록 환경 변수 우선 사용, 없을 경우 기본 Fallback 설정 적용
                 let firebaseConfig = {};
                 if (typeof __firebase_config !== 'undefined' && __firebase_config) {
                     firebaseConfig = JSON.parse(__firebase_config);
                 } else {
-                    // 외부 배포용 기본 설정 (사용자의 Firebase 프로젝트 정보 입력 가능)
+                    // 👇 [중요] 아래에 본인의 Firebase 콘솔 설정 정보를 그대로 입력해주세요!
                     firebaseConfig = {
-                        apiKey: "AIzaSyDummyKeyForStandaloneBuild12345",
-                        authDomain: "evolution-casino-cloud.firebaseapp.com",
-                        projectId: "evolution-casino-cloud",
-                        storageBucket: "evolution-casino-cloud.appspot.com",
-                        messagingSenderId: "1234567890",
-                        appId: "1:1234567890:web:abcdef"
+                        apiKey: "AIzaSyDW0cJGWJDdpgeEmkP3tIjwTnGVvoKlm8c",
+                        authDomain: "avls-fabc7.firebaseapp.com",
+                        projectId: "avls-fabc7",
+                        storageBucket: "avls-fabc7.firebasestorage.app",
+                        messagingSenderId: "63255308550",
+                        appId: "1:63255308550:web:1cbfc44f0a416f87ae5687"
                     };
                 }
                 
@@ -143,7 +142,7 @@
                 });
             } catch (err) {
                 console.error("Firebase Init Error:", err);
-                document.getElementById('app').innerHTML = `<div class="flex-1 flex flex-col items-center justify-center p-6 text-center"><p class="text-rose-400 font-bold mb-2">데이터베이스 연결 실패</p><p class="text-xs text-zinc-400">네트워크 연결 및 설정을 확인해주세요.</p></div>`;
+                document.getElementById('app').innerHTML = `<div class="flex-1 flex flex-col items-center justify-center p-6 text-center"><p class="text-rose-400 font-bold mb-2">데이터베이스 연결 실패</p><p class="text-xs text-zinc-400">Firebase 설정 정보 및 네트워크를 확인해주세요.</p></div>`;
             }
         }
 
@@ -831,4 +830,5 @@
     </script>
 </body>
 </html>
+
 
