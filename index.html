@@ -113,14 +113,14 @@
                 if (typeof __firebase_config !== 'undefined' && __firebase_config) {
                     firebaseConfig = JSON.parse(__firebase_config);
                 } else {
-                    // 👇 [중요] 아래에 본인의 Firebase 콘솔 설정 정보를 그대로 입력해주세요!
+                    // ✅ 올바른 문법(쉼표 추가됨)으로 적용된 설정
                     firebaseConfig = {
                         apiKey: "AIzaSyDW0cJGWJDdpgeEmkP3tIjwTnGVvoKlm8c",
                         authDomain: "avls-fabc7.firebaseapp.com",
                         projectId: "avls-fabc7",
                         storageBucket: "avls-fabc7.firebasestorage.app",
                         messagingSenderId: "63255308550",
-                        appId: "1:63255308550:web:1cbfc44f0a416f87ae5687"
+                        appId: "1:63255308550:web:1cbfc44f0a416f87ae5687",
                         measurementId: "G-K1FBTK4FC0"
                     };
                 }
