@@ -267,7 +267,8 @@
             } else {
                 if (users.some(u => u.id === id)) { alert('이미 존재하는 아이디입니다.'); return; }
                 const newCode = 'EV-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-                const newUser = { id, pw, code: newCode, balance: 10000, points: 100, role: 'user' };
+                // ✅ 신규 회원가입 시 보유 자산(balance)과 포인트(points)가 0원으로 설정되도록 수정
+                const newUser = { id, pw, code: newCode, balance: 0, points: 0, role: 'user' };
                 
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', id), newUser);
                 currentUser = newUser; 
