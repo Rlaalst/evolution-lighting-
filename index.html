@@ -81,8 +81,9 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, doc, setDoc, onSnapshot, addDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
 
-        let db, auth, appId;
+        let db, auth, appId, analytics;
         let currentUser = null;
         let currentTab = 'login';
         let users = [];
@@ -113,21 +114,22 @@
                 if (typeof __firebase_config !== 'undefined' && __firebase_config) {
                     firebaseConfig = JSON.parse(__firebase_config);
                 } else {
-                    // ✅ 올바른 문법(쉼표 추가됨)으로 적용된 설정
+                    // ✅ 앱에서 제공해주신 최신 공식 설정값 적용
                     firebaseConfig = {
                         apiKey: "AIzaSyDW0cJGWJDdpgeEmkP3tIjwTnGVvoKlm8c",
                         authDomain: "avls-fabc7.firebaseapp.com",
                         projectId: "avls-fabc7",
                         storageBucket: "avls-fabc7.firebasestorage.app",
                         messagingSenderId: "63255308550",
-                        appId: "1:63255308550:web:1cbfc44f0a416f87ae5687",
-                        measurementId: "G-K1FBTK4FC0"
+                        appId: "1:63255308550:web:b6440f2851a2afedae5687",
+                        measurementId: "G-FS0JLQXBVS"
                     };
                 }
                 
                 const app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
                 db = getFirestore(app);
+                try { analytics = getAnalytics(app); } catch(e) {}
                 appId = typeof __app_id !== 'undefined' ? __app_id : 'evolution-casino-v1';
 
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
@@ -143,7 +145,7 @@
                 });
             } catch (err) {
                 console.error("Firebase Init Error:", err);
-                document.getElementById('app').innerHTML = `<div class="flex-1 flex flex-col items-center justify-center p-6 text-center"><p class="text-rose-400 font-bold mb-2">데이터베이스 연결 실패</p><p class="text-xs text-zinc-400">Firebase 설정 정보 및 네트워크를 확인해주세요.</p></div>`;
+                document.getElementById('app').innerHTML = `<div class="flex-1 flex flex-col items-center justify-center p-6 text-center"><p class="text-rose-400 font-bold mb-2">데이터베이스 연결 실패</p><p class="text-xs text-zinc-400">Firebase 보안 규칙(Rules)이 'if true;'로 설정되어 있는지 확인해주세요.</p></div>`;
             }
         }
 
@@ -831,5 +833,4 @@
     </script>
 </body>
 </html>
-
 
