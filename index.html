@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <!-- 하단 미니멀 아이콘 네비게이션 -->
+    <!-- 하단 네비게이션 -->
     <nav id="bottom-nav" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 glass-panel flex items-center gap-6 px-8 py-3.5 z-50 shadow-2xl rounded-full border border-white/10">
         <button onclick="switchTab('lobby')" title="로비" class="w-11 h-11 flex items-center justify-center text-xl rounded-full bg-zinc-900 hover:bg-white hover:text-black transition cursor-pointer shadow-lg border border-white/5">🏠</button>
         <button onclick="switchTab('speed')" title="스피드 바카라" class="w-11 h-11 flex items-center justify-center text-xl rounded-full bg-zinc-900 hover:bg-white hover:text-black transition cursor-pointer shadow-lg border border-white/5">🃏</button>
@@ -67,18 +67,18 @@
             return 'EV-' + Math.random().toString(36).substring(2, 8).toUpperCase();
         }
 
-        let users = JSON.parse(localStorage.getItem('evo_users_v6')) || [
+        let users = JSON.parse(localStorage.getItem('evo_users_v7')) || [
             { id: 'kimwy050928', pw: '@Kimwy050928', code: 'EV-ADMIN', balance: 1000000, points: 0, role: 'admin' },
             { id: 'user1', pw: '1234', code: generateUniqueCode(), balance: 10000, points: 0, role: 'user' }
         ];
 
-        let depositRequests = JSON.parse(localStorage.getItem('evo_deposits_v6')) || [];
-        let withdrawRequests = JSON.parse(localStorage.getItem('evo_withdraws_v6')) || [];
-        let notices = JSON.parse(localStorage.getItem('evo_notices_v6')) || [
+        let depositRequests = JSON.parse(localStorage.getItem('evo_deposits_v7')) || [];
+        let withdrawRequests = JSON.parse(localStorage.getItem('evo_withdraws_v7')) || [];
+        let notices = JSON.parse(localStorage.getItem('evo_notices_v7')) || [
             { id: 1, title: '⚡ 에볼루션 프리미엄 카지노 오픈 이벤트', content: '가입 첫 충전 시 포인트 추가 지급 및 라이트닝 배당 시스템 적용 기념 이벤트를 진행합니다!', time: '2026-08-17' }
         ];
 
-        let currentUser = JSON.parse(localStorage.getItem('evo_current_user_v6')) || null;
+        let currentUser = JSON.parse(localStorage.getItem('evo_current_user_v7')) || null;
         let currentTab = currentUser ? 'lobby' : 'login';
 
         let lastPlayerCards = [];
@@ -106,16 +106,16 @@
         }
 
         function saveData() {
-            localStorage.setItem('evo_users_v6', JSON.stringify(users));
-            localStorage.setItem('evo_deposits_v6', JSON.stringify(depositRequests));
-            localStorage.setItem('evo_withdraws_v6', JSON.stringify(withdrawRequests));
-            localStorage.setItem('evo_notices_v6', JSON.stringify(notices));
+            localStorage.setItem('evo_users_v7', JSON.stringify(users));
+            localStorage.setItem('evo_deposits_v7', JSON.stringify(depositRequests));
+            localStorage.setItem('evo_withdraws_v7', JSON.stringify(withdrawRequests));
+            localStorage.setItem('evo_notices_v7', JSON.stringify(notices));
             if (currentUser) {
                 const latestMe = users.find(u => u.id === currentUser.id);
                 if (latestMe) currentUser = latestMe;
-                localStorage.setItem('evo_current_user_v6', JSON.stringify(currentUser));
+                localStorage.setItem('evo_current_user_v7', JSON.stringify(currentUser));
             } else {
-                localStorage.removeItem('evo_current_user_v6');
+                localStorage.removeItem('evo_current_user_v7');
             }
         }
 
@@ -218,7 +218,6 @@
 
         function renderLobby() {
             return `
-                <!-- 깔끔하게 정렬된 프리미엄 상단 헤더 -->
                 <header class="glass-panel px-6 py-4 border-b border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 w-full sticky top-0 z-40">
                     <div class="flex items-center gap-3.5 w-full md:w-auto justify-between md:justify-start">
                         <div class="flex items-center gap-3">
@@ -230,7 +229,6 @@
                         </div>
                     </div>
 
-                    <!-- 자산 및 입출금/BGM 버튼 그룹 -->
                     <div class="flex items-center gap-2.5 w-full md:w-auto justify-end flex-wrap">
                         <div class="bg-black/60 border border-white/10 px-3.5 py-2 rounded-2xl flex items-center gap-3">
                             <div>
@@ -247,15 +245,17 @@
                         <div class="flex items-center gap-1.5">
                             <button onclick="openDepositModal()" class="bg-white hover:bg-zinc-200 text-black px-3 py-2 rounded-xl text-xs font-black transition cursor-pointer shadow">입금</button>
                             <button onclick="openWithdrawModal()" class="bg-zinc-800 hover:bg-zinc-700 text-white border border-white/10 px-3 py-2 rounded-xl text-xs font-bold transition cursor-pointer">환전</button>
-                            <button onclick="toggleBgm()" class="bg-zinc-800 hover:bg-zinc-700 text-white px-3 py-2 rounded-xl text-xs font-bold transition cursor-pointer border border-white/10" title="배경음악 토글">
-                                ${isBgmPlaying ? '🔊 ON' : '🔇 OFF'}
+                            <button onclick="toggleBgm()" class="bg-zinc-800 hover:bg-zinc-700 text-white px-3 py-2 rounded-xl text-xs font-bold transition cursor-pointer border border-white/10" title="BGM">
+                                ${isBgmPlaying ? '🔊' : '🔇'}
+                            </button>
+                            <button onclick="logout()" class="bg-rose-950/60 hover:bg-rose-900 text-rose-300 border border-rose-500/30 px-3 py-2 rounded-xl text-xs font-bold transition cursor-pointer" title="로그아웃">
+                                로그아웃
                             </button>
                         </div>
                     </div>
                 </header>
 
                 <div class="flex-1 p-8 space-y-8 w-full max-w-4xl mx-auto">
-                    <!-- 공지사항 배너 -->
                     <div class="glass-panel p-6 rounded-3xl shadow-xl space-y-3 border border-white/10">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-black tracking-widest text-amber-400 uppercase flex items-center gap-2">📢 공지사항 및 이벤트</span>
@@ -274,7 +274,6 @@
                         </div>
                     </div>
 
-                    <!-- 게임 로비 카드 -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="glass-panel p-8 rounded-3xl shadow-2xl flex flex-col justify-between space-y-6 relative overflow-hidden group hover:border-white/30 transition">
                             <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/5 rounded-full blur-2xl"></div>
@@ -305,8 +304,6 @@
                             <button onclick="openNoticeModal()" class="flex-1 bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs py-3.5 rounded-2xl transition cursor-pointer border border-white/10">공지사항 작성</button>
                         </div>
                     </div>` : ''}
-
-                    <button onclick="logout()" class="w-full bg-transparent hover:bg-zinc-900/50 border border-white/10 text-zinc-400 hover:text-white font-bold py-4 rounded-2xl text-xs transition cursor-pointer">로그아웃</button>
                 </div>
             `;
         }
@@ -367,10 +364,12 @@
             return `
                 <header class="glass-panel px-8 py-5 border-b border-white/5 flex justify-between items-center w-full sticky top-0 z-40">
                     <h1 class="font-bold text-white text-base">⚙️ 관리자 센터 (입출금 및 회원 관리)</h1>
-                    <span class="text-xs text-zinc-400 bg-zinc-900 px-4 py-2 rounded-xl font-semibold border border-white/5">총 회원: ${users.length}명</span>
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs text-zinc-400 bg-zinc-900 px-4 py-2 rounded-xl font-semibold border border-white/5">총 회원: ${users.length}명</span>
+                        <button onclick="logout()" class="bg-rose-950/60 hover:bg-rose-900 text-rose-300 border border-rose-500/30 px-3.5 py-2 rounded-xl text-xs font-bold transition cursor-pointer">로그아웃</button>
+                    </div>
                 </header>
                 <div class="flex-1 p-8 space-y-8 overflow-y-auto w-full max-w-4xl mx-auto">
-                    
                     <div class="space-y-4">
                         <div class="flex justify-between items-center px-1">
                             <h2 class="text-sm font-bold text-emerald-400 uppercase tracking-wider">💳 입금 신청 내역</h2>
@@ -694,6 +693,7 @@
                         <div class="flex items-center gap-1.5">
                             <button onclick="openDepositModal()" class="bg-white hover:bg-zinc-200 text-black px-3 py-2 rounded-xl text-xs font-black transition cursor-pointer shadow">입금</button>
                             <button onclick="openWithdrawModal()" class="bg-zinc-800 hover:bg-zinc-700 text-white border border-white/10 px-3 py-2 rounded-xl text-xs font-bold transition cursor-pointer">환전</button>
+                            <button onclick="logout()" class="bg-rose-950/60 hover:bg-rose-900 text-rose-300 border border-rose-500/30 px-3 py-2 rounded-xl text-xs font-bold transition cursor-pointer">로그아웃</button>
                         </div>
                     </div>
                 </header>
@@ -815,4 +815,5 @@
     </script>
 </body>
 </html>
+
 
