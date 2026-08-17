@@ -114,7 +114,6 @@
                 if (typeof __firebase_config !== 'undefined' && __firebase_config) {
                     firebaseConfig = JSON.parse(__firebase_config);
                 } else {
-                    // ✅ 앱에서 제공해주신 최신 공식 설정값 적용
                     firebaseConfig = {
                         apiKey: "AIzaSyDW0cJGWJDdpgeEmkP3tIjwTnGVvoKlm8c",
                         authDomain: "avls-fabc7.firebaseapp.com",
@@ -145,7 +144,7 @@
                 });
             } catch (err) {
                 console.error("Firebase Init Error:", err);
-                document.getElementById('app').innerHTML = `<div class="flex-1 flex flex-col items-center justify-center p-6 text-center"><p class="text-rose-400 font-bold mb-2">데이터베이스 연결 실패</p><p class="text-xs text-zinc-400">Firebase 보안 규칙(Rules)이 'if true;'로 설정되어 있는지 확인해주세요.</p></div>`;
+                document.getElementById('app').innerHTML = `<div class="flex-1 flex flex-col items-center justify-center p-6 text-center"><p class="text-rose-400 font-bold mb-2">데이터베이스 연결 실패</p><p class="text-xs text-zinc-400">네트워크 연결 및 Firebase 인증/규칙 설정을 확인해주세요.</p></div>`;
             }
         }
 
